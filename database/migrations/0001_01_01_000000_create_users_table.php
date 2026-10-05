@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password'); // Akan dienkripsi dengan bcrypt
+            $table->enum('role', ['admin', 'user'])->default('user'); // Fitur Bonus Role Management
             $table->rememberToken();
             $table->timestamps();
         });
