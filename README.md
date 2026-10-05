@@ -1,58 +1,65 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Aplikasi Sistem Manajemen Data Mahasiswa (Keamanan Sistem Informasi)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web sederhana ini dibangun menggunakan **Framework Laravel** sebagai tugas Quiz Praktek Mata Kuliah Keamanan Sistem Informasi, Politeknik Negeri Padang.
 
-## About Laravel
+## 🔒 Fitur Keamanan yang Diimplementasikan
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. **Autentikasi & Enkripsi Password:**
+   - Fitur Login, Register, dan Logout menggunakan Laravel Authentication.
+   - Password disimpan dengan aman menggunakan algoritma hashing **Bcrypt**.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+2. **Proteksi CSRF (Cross-Site Request Forgery):**
+   - Seluruh form (POST, PUT, DELETE) dilindungi menggunakan token `@csrf` bawaan Laravel untuk mencegah eksekusi perintah dari pihak ketiga yang tidak sah.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+3. **Validasi Input Server-Side:**
+   - Semua input form divalidasi di sisi server sebelum diproses ke database untuk mencegah *SQL Injection* dan memastikan integritas data.
+   - Penanganan pesan error yang *user-friendly* apabila input tidak sesuai.
 
-## Learning Laravel
+4. **Proteksi Akses (Route Middleware & Role Management):**
+   - Halaman sistem diproteksi menggunakan middleware `auth`.
+   - Menerapkan **Role Management** (Admin & User).
+   - **Admin:** Memiliki hak akses penuh untuk CRUD (Create, Read, Update, Delete) data utama dan melihat log sistem.
+   - **User:** Memiliki hak akses terbatas (hanya Read/melihat data).
+   - Akses yang tidak sah antar role akan dicegah secara otomatis oleh Route Middleware.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+5. **Throttle Login Attempt (Fitur Bonus):**
+   - Membatasi jumlah percobaan login maksimal 5 kali per menit. Jika gagal melebihi batas, user harus menunggu, yang berguna untuk mencegah serangan *Brute Force*.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+6. **Audit Log Aktivitas User (Fitur Bonus):**
+   - Sistem mencatat semua aktivitas krusial user (seperti Login, Logout, Tambah Data, Edit Data, dan Hapus Data) beserta alamat IP ke dalam database untuk pemantauan keamanan.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## 🛠️️ Cara Menjalankan Aplikasi
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+1. **Persiapan:**
+   - Pastikan Anda sudah menginstal PHP, Composer, dan MySQL/MariaDB di komputer Anda.
+   - Ekstrak file project ini.
 
-```bash
-composer require laravel/boost --dev
+2. **Install Dependensi:**
+   Buka terminal di dalam folder project, lalu jalankan perintah:
+   > composer install
 
-php artisan boost:install
-```
+3. **Konfigurasi Environment:**
+   - Salin file `.env.example` dan ubah namanya menjadi `.env`.
+   - Buka file `.env` dan atur koneksi database Anda (sesuaikan `DB_DATABASE`, `DB_USERNAME`, dan `DB_PASSWORD`).
+   - Generate application key dengan perintah:
+   > php artisan key:generate
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+4. **Migrasi dan Seeder Database:**
+   Jalankan perintah berikut untuk membuat tabel dan mengisi akun pengguna default:
+   > php artisan migrate --seed
 
-## Contributing
+5. **Kredensial Akun Default (Hasil Seeder):**
+   - **Akun Admin:**
+     Email: admin@pnp.ac.id
+     Password: admin123
+   - **Akun User:**
+     Email: user@pnp.ac.id
+     Password: user123
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. **Menjalankan Server:**
+   Jalankan perintah ini untuk mengaktifkan local server Laravel:
+   > php artisan serve
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+   Buka browser Anda dan akses tautan berikut: `http://127.0.0.1:8000`
